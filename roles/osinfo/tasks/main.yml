@@ -1,0 +1,16 @@
+---
+- name: cat /etc/os-release
+  shell: cat /etc/os-release
+  register: result
+  changed_when: no
+- name: show result
+  debug:
+    msg: "{{result.stdout_lines}}"
+- name: uname -a
+  shell: uname -a
+  register: result
+  changed_when: no
+- name: show result
+  debug:
+    msg: "{{result.stdout_lines}}"
+

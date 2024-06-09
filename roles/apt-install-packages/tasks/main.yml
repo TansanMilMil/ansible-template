@@ -1,0 +1,17 @@
+---
+- name: apt update
+  apt:
+    update_cache: yes
+- name: apt upgrade
+  apt:
+    upgrade: yes
+- name: install apt packages
+  apt:
+    name:
+      - vim
+      - git
+      - tig
+      - ufw
+      - chromium
+      - jq
+

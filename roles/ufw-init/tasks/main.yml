@@ -1,0 +1,34 @@
+---
+- name: ufw already set
+  shell: ufw status
+  register: ufw_status
+  changed_when: ufw_status.rc >= 1
+
+- name: reboot fro ufw
+  ansible.builtin.reboot: reboot_timeout=300
+  when: ufw_status.rc >= 1
+
+- name: enable ufw
+  community.general.ufw:
+    state: enabled
+    policy: deny
+  when: ufw_status.rc >= 1
+
+- name: enable ufw logging
+  community.general.ufw:
+    logging: 'on'
+  when: ufw_status.rc >= 1
+
+- name: ufw allow tcp port 22
+  community.general.ufw:
+    rule: allow
+    port: '22'
+    proto: tcp
+  when: ufw_status.rc >= 1
+
+- name: ufw allow tcp port 5900
+  community.general.ufw:
+    rule: allow
+    port: '5900'
+    proto: tcp
+  when: ufw_status.rc >= 1

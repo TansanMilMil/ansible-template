@@ -1,0 +1,19 @@
+---
+- name: check nvm already installed
+  stat:
+    path: {{ ansible_home }}/.nvm
+  register: result
+  changed_when: not result.stat.exists
+
+- name: install nvm
+  become: no
+  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  when: not result.stat.exists
+
+- name: nvm install nodejs
+  become: no
+  shell: source /etc/profile && nvm install --lts
+  # nvm install is too late for Raspberry Pi Zero...
+  timeout: 300
+  when: not result.stat.exists
+

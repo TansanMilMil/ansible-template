@@ -1,0 +1,5 @@
+---
+- name: yum upgrade
+  shell:
+    /bin/bash -lc 'yum update -y'
+

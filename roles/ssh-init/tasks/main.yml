@@ -1,0 +1,12 @@
+---
+- name: check id_rsa exist
+  stat:
+    path: {{ ansible_home }}/.ssh/id_rsa
+  register: idrsa
+  changed_when: not idrsa.stat.exists
+
+- name: ssh-keygen
+  become: no
+  shell: |
+    ssh-keygen -b 2048 -t rsa -f {{ ansible_home }}/.ssh/id_rsa -q -N ""
+  when: not idrsa.stat.exists

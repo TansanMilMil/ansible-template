@@ -1,0 +1,8 @@
+---
+- name: apt update
+  shell:
+    /bin/bash -lc 'apt update'
+- name: apt upgrade
+  shell:
+    /bin/bash -lc 'apt upgrade -y'
+

@@ -1,0 +1,33 @@
+---
+- name: check vimrc already exist
+  stat:
+    path: {{ ansible_home }}/.vimrc
+  register: vimrc
+  changed_when: not vimrc.stat.exists
+
+- name: configure vim
+  shell: |
+    echo << EOF > {{ ansible_home }}/.vimrc
+    syntax on
+    set autochdir
+    set tabstop=4
+    set expandtab
+    set autoindent
+    set number
+    set hlsearch
+    set wrapscan
+    set ignorecase
+    set incsearch
+    set smartcase
+    set fenc=utf-8
+    set cursorline
+    set laststatus=2
+    set statusline=%F%m%h%w\ %<[ENC=%{&fenc!=''?&fenc:&enc}]\ [FMT=%{&ff}]\ [TYPE=%Y]\ %=[CODE=0x%02B]\ [POS=%l/%L(%02v)]
+    set showcmd
+    set showmatch
+    set autoread
+    set virtualedit=onemore
+    EOF
+    update-alternatives --set editor /usr/bin/vim.basic
+  when: not vimrc.stat.exists
+

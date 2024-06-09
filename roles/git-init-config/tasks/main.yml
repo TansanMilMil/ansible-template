@@ -1,0 +1,14 @@
+---
+- name: check gitconfig(global) already exist
+  become: no
+  stat:
+    path: {{ ansible_home }}/.gitconfig
+  register: gitconfig_global
+  changed_when: not gitconfig_global.stat.exists
+
+- name: configure git global
+  become: no
+  shell: |
+    git config --global user.name "TansanMilMil"
+    git config --global user.email "tmdev2929@gmail.com"
+  when: not gitconfig_global.stat.exists
